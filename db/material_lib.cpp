@@ -73,6 +73,26 @@ MaterialLib::Material* MaterialLib::getMaterial(int index)
     return material;
 }
 
+MaterialLib::Material* MaterialLib::getMaterial(const QString& name)
+{
+    Material* material = NULL;
+
+    QSqlQuery query = QSqlQuery(db);
+    QString sql = "SELECT destiny, emissivity FROM material_table "
+                  "WHERE name = " + name;
+
+    if (query.exec(sql)) {
+
+        while (query.next()) {
+            material = new Material();
+            material->destiny = query.value(0).toFloat();
+            material->emissivity = query.value(1).toFloat();
+        }
+    }
+
+    return material;
+}
+
 QList<MaterialLib::Material> MaterialLib::getMaterialNameList()
 {
     QList<MaterialLib::Material> list;

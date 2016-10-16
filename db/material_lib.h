@@ -20,6 +20,7 @@ public:
     QMap<float, float> getTmpLambdaMap(int index);
     QMap<float, float> getTmpCpMap(int index);
     Material* getMaterial(int index);
+    Material* getMaterial(const QString& name);
     bool addMaterial(const QString& name, int tyle);
     bool deleteMaterial(int index);
     bool isExist(const QString& name);
