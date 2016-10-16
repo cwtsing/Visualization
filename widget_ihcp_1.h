@@ -12,7 +12,7 @@
 #include "common.h"
 #include <QComboBox>
 
-#include "my_usual_radiobox.h"
+#include "mywidget/my_usual_radiobox.h"
 
 class Widget_ihcp_1 : public QWidget
 {

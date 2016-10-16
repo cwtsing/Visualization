@@ -1,13 +1,14 @@
 #include "widget_ihcp_1.h"
-#include "material_lib.h"
+#include "db/material_lib.h"
 #include "dialog_material_lib.h"
-#include "dialog_temperature.h"
 #include <QGridLayout>
 #include <QVBoxLayout>
 #include <QHBoxLayout>
 #include <QHeaderView>
-#include "material_lib.h"
+#include "db/material_lib.h"
 #include <QComboBox>
+#include "dialog_temperature.h"
+
 Widget_ihcp_1::Widget_ihcp_1(QWidget *parent) :
     QWidget(parent)
 {
@@ -24,15 +25,15 @@ void Widget_ihcp_1::init()
     //init all Qmembers
     fir1Label = new QLabel(tr("材料层数"));
     fir2Label = new QLabel(tr("初温（K）"));
-    fir3Label = new QLabel(tr("环境温度外（K）"));
-    fir4Label = new QLabel(tr("环境温度内（K）"));
+    fir3Label = new QLabel(tr("环境温度外"));
+    fir4Label = new QLabel(tr("环境温度内"));
     fir1Text = new QLineEdit();
     fir2Text = new QLineEdit();
     fir3Text = new QLineEdit();
     fir4Text = new QLineEdit();
 
 
-    sec1Label = new QLabel(tr("测点与外壁距离（m）"));
+    sec1Label = new QLabel(tr("测点与外壁距离"));
     sec2Label = new QLabel(tr("外边面辐射发射率"));
     sec3Label = new QLabel(tr("从头计算还是接着算：0从头，1接着算"));
 
@@ -93,7 +94,7 @@ void Widget_ihcp_1::init()
     labels << "第一层" << "第二层" << "第三层" << "第四层" << "第五层(最外层)";
     firTableWidget->setHorizontalHeaderLabels(labels);
     labels.clear();
-    labels << "材料" << "每层材料网格数量" << "材料的厚度（m）" ;
+    labels << "材料" << "每层材料网格数量" << "材料的厚度" ;
     firTableWidget->setVerticalHeaderLabels(labels);
     firTableWidget->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
     firTableWidget->verticalHeader()->setSectionResizeMode(QHeaderView::Stretch);
@@ -105,12 +106,11 @@ void Widget_ihcp_1::init()
     firTableWidget->setFixedHeight(Utils::windowSize().height() * 0.3);
 
     for (int i = 0;i < 5;i++) {
-        QStringList labels;
-        QStringList metalList = MaterialLib::getInstance()->getMaterial();
+        QStringList  labels;
+        QList<MaterialLib::Material> material = MaterialLib::getInstance()->getMaterialNameList();
 
-        for (QStringList::iterator it = metalList.begin();it != metalList.end();it++){
-            QString current = *it;
-            labels << current;
+        for (QList<MaterialLib::Material>::iterator it = material.begin();it != material.end();it++){
+            labels << (*it).materialName;
         }
         for (int i = 0;i < firTableWidget->columnCount();i++) {
             QComboBox *metalBox = new QComboBox();
