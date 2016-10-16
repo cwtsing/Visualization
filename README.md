@@ -35,6 +35,7 @@
 * my_combobox_group:自定义group控件,含有comboBox,edit,button,供转捩准则和放大系数复用
 * my_treewidget_item:继承自QTreeWidget,可对item进行编号,可快速知晓点击的是哪个item
 * my_usual_radiobox:自定义group控件,可包含多个radioButton
+* dialog_table:带table的dialog
 
 
 
