@@ -31,7 +31,8 @@ SOURCES += main.cpp\
     dialog_login.cpp \
     widget_flat.cpp \
     widget_mulpoint.cpp \
-    dialog_table.cpp
+    dialog_table.cpp \
+    dialog_temperature.cpp
 
 
 HEADERS  += \
@@ -52,7 +53,8 @@ HEADERS  += \
     common.h \
     widget_flat.h \
     widget_mulpoint.h \
-    dialog_table.h
+    dialog_table.h \
+    dialog_temperature.h
 
 
 FORMS    +=
