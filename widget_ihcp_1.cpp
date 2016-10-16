@@ -1,11 +1,12 @@
 #include "widget_ihcp_1.h"
-#include "db/material_lib.h"
+#include "material_lib.h"
 #include "dialog_material_lib.h"
+#include "dialog_temperature.h"
 #include <QGridLayout>
 #include <QVBoxLayout>
 #include <QHBoxLayout>
 #include <QHeaderView>
-#include "db/material_lib.h"
+#include "material_lib.h"
 #include <QComboBox>
 Widget_ihcp_1::Widget_ihcp_1(QWidget *parent) :
     QWidget(parent)
@@ -19,18 +20,19 @@ Widget_ihcp_1::~Widget_ihcp_1()
 
 void Widget_ihcp_1::init()
 {
+    materialLayNum = 5;
     //init all Qmembers
     fir1Label = new QLabel(tr("材料层数"));
     fir2Label = new QLabel(tr("初温（K）"));
-    fir3Label = new QLabel(tr("环境温度外"));
-    fir4Label = new QLabel(tr("环境温度内"));
+    fir3Label = new QLabel(tr("环境温度外（K）"));
+    fir4Label = new QLabel(tr("环境温度内（K）"));
     fir1Text = new QLineEdit();
     fir2Text = new QLineEdit();
     fir3Text = new QLineEdit();
     fir4Text = new QLineEdit();
 
 
-    sec1Label = new QLabel(tr("测点与外壁距离"));
+    sec1Label = new QLabel(tr("测点与外壁距离（m）"));
     sec2Label = new QLabel(tr("外边面辐射发射率"));
     sec3Label = new QLabel(tr("从头计算还是接着算：0从头，1接着算"));
 
@@ -63,6 +65,7 @@ void Widget_ihcp_1::init()
     connect(layerBox, SIGNAL(currentIndexChanged(int)), this, SLOT(changeTable(int)));
 
     button1 = new QPushButton(tr("输入测点温度"), this);
+    connect(button1, &QPushButton::clicked, this, &Widget_ihcp_1::showTemperDialog);
     button1->setFixedSize(Utils::largeButtonSize() * 0.5);
     button2 = new QPushButton(tr("修改物性"), this);
     button2->setFixedSize(Utils::largeButtonSize() * 0.5);
@@ -90,7 +93,7 @@ void Widget_ihcp_1::init()
     labels << "第一层" << "第二层" << "第三层" << "第四层" << "第五层(最外层)";
     firTableWidget->setHorizontalHeaderLabels(labels);
     labels.clear();
-    labels << "材料" << "每层材料网格数量" << "材料的厚度" ;
+    labels << "材料" << "每层材料网格数量" << "材料的厚度（m）" ;
     firTableWidget->setVerticalHeaderLabels(labels);
     firTableWidget->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
     firTableWidget->verticalHeader()->setSectionResizeMode(QHeaderView::Stretch);
@@ -103,10 +106,11 @@ void Widget_ihcp_1::init()
 
     for (int i = 0;i < 5;i++) {
         QStringList labels;
-        QList<MaterialLib::Material> material = MaterialLib::getInstance()->getMaterialNameList();
+        QStringList metalList = MaterialLib::getInstance()->getMaterial();
 
-        for (QList<MaterialLib::Material>::iterator it = material.begin();it != material.end();it++){
-            labels << (*it).materialName;
+        for (QStringList::iterator it = metalList.begin();it != metalList.end();it++){
+            QString current = *it;
+            labels << current;
         }
         for (int i = 0;i < firTableWidget->columnCount();i++) {
             QComboBox *metalBox = new QComboBox();
@@ -194,6 +198,7 @@ void Widget_ihcp_1::init()
 
 void Widget_ihcp_1::changeTable(int index)
 {
+    materialLayNum = index + 1;
     for (int i = 0;i < firTableWidget->rowCount();i++) {
         for (int j = 0;j < firTableWidget->columnCount();j++) {
             bool isEnabled = j <= index ? true : false;
@@ -219,5 +224,11 @@ void Widget_ihcp_1::changeTable(int index)
 void Widget_ihcp_1::showLoadDialog()
 {
     MateriaLibDialog *dialog = new MateriaLibDialog(this);
+    dialog->show();
+}
+
+void Widget_ihcp_1::showTemperDialog()
+{
+    Dialog_temperature *dialog = new Dialog_temperature(materialLayNum);
     dialog->show();
 }

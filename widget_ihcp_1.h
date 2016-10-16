@@ -12,7 +12,7 @@
 #include "common.h"
 #include <QComboBox>
 
-#include "mywidget/my_usual_radiobox.h"
+#include "my_usual_radiobox.h"
 
 class Widget_ihcp_1 : public QWidget
 {
@@ -23,6 +23,7 @@ public:
     ~Widget_ihcp_1();
     void init();
 private:
+    int materialLayNum;
 
     QLabel *fir1Label;
     QLabel *fir2Label;
@@ -78,6 +79,7 @@ signals:
 public slots:
     void changeTable(int index);
     void showLoadDialog();
+    void showTemperDialog();
 };
 
 #endif // WIDGET_IHCP_1_H
