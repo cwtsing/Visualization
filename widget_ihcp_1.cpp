@@ -7,6 +7,8 @@
 #include <QHeaderView>
 #include "db/material_lib.h"
 #include <QComboBox>
+#include "dialog_temperature.h"
+
 Widget_ihcp_1::Widget_ihcp_1(QWidget *parent) :
     QWidget(parent)
 {
@@ -19,6 +21,7 @@ Widget_ihcp_1::~Widget_ihcp_1()
 
 void Widget_ihcp_1::init()
 {
+    materialLayNum = 5;
     //init all Qmembers
     fir1Label = new QLabel(tr("材料层数"));
     fir2Label = new QLabel(tr("初温（K）"));
@@ -63,6 +66,7 @@ void Widget_ihcp_1::init()
     connect(layerBox, SIGNAL(currentIndexChanged(int)), this, SLOT(changeTable(int)));
 
     button1 = new QPushButton(tr("输入测点温度"), this);
+    connect(button1, &QPushButton::clicked, this, &Widget_ihcp_1::showTemperDialog);
     button1->setFixedSize(Utils::largeButtonSize() * 0.5);
     button2 = new QPushButton(tr("修改物性"), this);
     button2->setFixedSize(Utils::largeButtonSize() * 0.5);
@@ -102,7 +106,7 @@ void Widget_ihcp_1::init()
     firTableWidget->setFixedHeight(Utils::windowSize().height() * 0.3);
 
     for (int i = 0;i < 5;i++) {
-        QStringList labels;
+        QStringList  labels;
         QList<MaterialLib::Material> material = MaterialLib::getInstance()->getMaterialNameList();
 
         for (QList<MaterialLib::Material>::iterator it = material.begin();it != material.end();it++){
@@ -194,6 +198,7 @@ void Widget_ihcp_1::init()
 
 void Widget_ihcp_1::changeTable(int index)
 {
+    materialLayNum = index + 1;
     for (int i = 0;i < firTableWidget->rowCount();i++) {
         for (int j = 0;j < firTableWidget->columnCount();j++) {
             bool isEnabled = j <= index ? true : false;
@@ -219,5 +224,11 @@ void Widget_ihcp_1::changeTable(int index)
 void Widget_ihcp_1::showLoadDialog()
 {
     MateriaLibDialog *dialog = new MateriaLibDialog(this);
+    dialog->show();
+}
+
+void Widget_ihcp_1::showTemperDialog()
+{
+    Dialog_temperature *dialog = new Dialog_temperature(materialLayNum);
     dialog->show();
 }
