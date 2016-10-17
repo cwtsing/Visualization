@@ -61,14 +61,14 @@ void CalBallHeadWidget::init()
     // mainLayout
     QGridLayout *mainLayout = new QGridLayout();
 
-    mainLayout->addWidget(formulaRadio, 0, 0);
+    mainLayout->addWidget(formulaRadio, 0, 0,1,2);
+    mainLayout->addWidget(lewisRadio, 0, 2,1,2);
     mainLayout->addWidget(amplificationBox, 1, 0, 1, 4);
     mainLayout->addWidget(editBox, 2, 0, 1, 4);
     mainLayout->addWidget(temperatureRadio, 3, 0);
     mainLayout->addWidget(calPosRadio, 3, 1);
     mainLayout->addWidget(thinRadio, 3, 2);
     mainLayout->addWidget(twoDimensionRadio, 3, 3);
-    mainLayout->addWidget(lewisRadio, 3, 4);
     mainLayout->addWidget(transformRadioBox, 4, 0, 1, 4);
     mainLayout->setRowStretch(5, 1);
     mainLayout->setColumnStretch(0, 3);

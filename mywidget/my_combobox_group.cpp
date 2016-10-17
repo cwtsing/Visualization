@@ -75,7 +75,7 @@ TransformBox::TransformBox(const QString &groupTitle, QWidget *parent) :
                        "当地动量厚度Rel" << "基于参数" << "参数ρ转换程序计算" << \
                        "程序通过Me取转换雷诺数ReTR" << "REQ" << "指定湍流程度";
     QStringList contentLables;
-    contentLables << "转换准则:" << "转换开始时间:" << "完成时间:";
+    contentLables << "转捩准则:" << "转换开始时间:" << "完成时间:";
     init(transformLables, contentLables);
 }
 

@@ -12,7 +12,9 @@ FlightWidget::FlightWidget(QWidget *parent) :
 
 
     timeEditBox = new GeneralEditBox("", labels, 3, 4, this);
-    timeEditBox->setFixedHeight(Utils::windowSize().height() * 0.3);
+//    timeEditBox->setFixedHeight(Utils::windowSize().height() * 0.3);
+    timeEditBox->setFixedHeight(Utils::windowSize().height() * 0.4);
+    timeEditBox->setFixedWidth(Utils::windowSize().width()*0.8);
 
     tableWidget = new QTableWidget(4, 5);
     labels.clear();
