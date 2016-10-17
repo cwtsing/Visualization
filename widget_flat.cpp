@@ -47,7 +47,7 @@ FlatWidget::FlatWidget(QWidget *parent) :
     labels.clear();
     labels << "是" << "否";
     thinRadio = new MyUsualRadioBox("是否稀薄", labels, MyUsualRadioBox::Horizontal,this);
-    thinRadio->setRadioIndex(-1);
+    thinRadio->setRadioIndex(1);
     thinRadio->disable();
 
     title = "";
@@ -121,6 +121,7 @@ FlatWidget::FlatWidget(QWidget *parent) :
     mainLayout->addWidget(amplificationBox, 4, 0, 1, 4);
     mainLayout->addWidget(radioBox3, 5, 1, 1, 2);
     mainLayout->addWidget(radioBox4, 5, 0);
+    mainLayout->addWidget(calPosRadio,4,4);
     mainLayout->addWidget(thinRadio, 5, 4);
     mainLayout->addWidget(radioBox2, 5, 3);
     mainLayout->addWidget(transformRadioBox, 6, 0, 1, 4);

@@ -18,7 +18,7 @@ void CalCylinderWidget::init()
 {
     // init radioBoxs
     QStringList radioLabels;
-    radioLabels <<  tr("BeckHh/Gallgher公式") <<  tr("cato/johnson") <<  tr("Boeing");
+    radioLabels <<  tr("BeckHh/Gallgher公式") <<  tr("Cato/Johnson") <<  tr("Boeing");
     formulaRadio = new MyUsualRadioBox(tr("公式选择"), radioLabels);
     formulaRadio->setObjectName("formulaRadio");
     connect(formulaRadio, &MyUsualRadioBox::radioToggle, this, &CalCylinderWidget::changeWidgetByRadioBox);

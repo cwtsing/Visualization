@@ -121,8 +121,11 @@ void WidgetHcd::init()
     labels << "是" << "否";
     isRadiationInsideRadio = new MyUsualRadioBox("", labels);
     isRadiationInsideRadio->setFixedHeight(isRadiationInsideRadio->sizeHint().height());
+    isRadiationInsideRadio->setRadioIndex(1);
+
     isRadiationOutsideRadio = new MyUsualRadioBox("", labels);
     isRadiationOutsideRadio->setFixedHeight(isRadiationInsideRadio->sizeHint().height());
+    isRadiationOutsideRadio->setRadioIndex(1);
 
     settingInputInsedeButton = new QPushButton(tr("设置输入"));
 //    settingInputInsedeButton->setStyleSheet("margin:10px;");

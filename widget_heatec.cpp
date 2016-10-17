@@ -69,10 +69,15 @@ void WidgetHeatec::init()
     childStackedWidget->addWidget(flatWidget);
     childStackedWidget->addWidget(mulPointWidget);
 
-    createButton = new QPushButton(tr("保存"), this);
-    createButton->setFixedSize(Utils::largeButtonSize());
-    calButton = new QPushButton(tr("载入"), this);
-    calButton->setFixedSize(Utils::largeButtonSize());
+    createButton = new QPushButton(tr("载入"), this);
+//    createButton->setFixedSize(Utils::largeButtonSize());
+    createButton->setFixedWidth(Utils::windowSize().width()*0.3);
+    createButton->setFixedHeight(Utils::largeButtonSize().height());
+
+    calButton = new QPushButton(tr("保存"), this);
+//    calButton->setFixedSize(Utils::largeButtonSize());
+    calButton->setFixedWidth(Utils::windowSize().width()*0.3);
+    calButton->setFixedHeight(Utils::largeButtonSize().height());
     connect(createButton, &QPushButton::clicked, this, &WidgetHeatec::saveParameterData);
 
 
