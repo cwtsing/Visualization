@@ -215,7 +215,7 @@ QMap<float, float> MaterialLib::getTmpCpMap(int index)
     QMap<float, float> map;
 
     QSqlQuery query = QSqlQuery(db);
-    QString sql = "SELECT t2.temperature, t2.lambda FROM material_table AS t1 "
+    QString sql = "SELECT t2.temperature, t2.cp FROM material_table AS t1 "
                   "JOIN tmp_cp_table AS t2 ON t1.id = t2.material "
                   "WHERE t1.id = " + QString::number(index);
 
@@ -303,7 +303,7 @@ bool MaterialLib::updateMaterialTmpCpMap(int index, QMap<float, float> tmpCpMap)
     query.addBindValue(index);
 
     if (query.exec()) {
-        sql = "INSERT INTO tmp_lambda_table (material, temperature, cp) values(?,?,?)";
+        sql = "INSERT INTO tmp_cp_table (material, temperature, cp) values(?,?,?)";
         QVariantList temperatures;
         QVariantList cps;
         QVariantList ids;

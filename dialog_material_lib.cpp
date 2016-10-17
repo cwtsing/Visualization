@@ -139,7 +139,7 @@ void MateriaLibDialog::treeItemClicked(QTreeWidgetItem* item)
         emissivityEdit->setText(QString::number(material->emissivity));
         int col = 0;
 
-        QMap<float,float> map = MaterialLib::getInstance()->getTmpLambdaMap(myItem->Index());
+        QMap<float,float> map = MaterialLib::getInstance()->getTmpCpMap(myItem->Index());
         for (QMap<float,float>::iterator it = map.begin();it != map.end();it++) {
             if (tmpCpTable->item(0, col)) {
                 tmpCpTable->item(0, col)->setText(QString::number(it.key()));
@@ -308,7 +308,7 @@ void MateriaLibDialog::saveMaterialLibData()
                 (!tmpCpTable->item(1, i) || tmpCpTable->item(1, i)->text() == ""))
             continue;
 
-        tmpLambdaMap.insert(tmpCpTable->item(0, i)->text().toFloat(),
+        tmpCpMap.insert(tmpCpTable->item(0, i)->text().toFloat(),
                             tmpCpTable->item(1, i)->text().toFloat());
     }
 
