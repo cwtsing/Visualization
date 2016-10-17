@@ -21,7 +21,8 @@ public:
     QMap<float, float> getTmpCpMap(int index);
     Material* getMaterial(int index);
     Material* getMaterial(const QString& name);
-    bool addMaterial(const QString& name, int tyle);
+    int getIndexOrderByName(int type, const QString& name);
+    bool addMaterial(const QString& name, int type);
     bool deleteMaterial(int index);
     bool isExist(const QString& name);
     bool updateMaterialName(int index, const QString &name);

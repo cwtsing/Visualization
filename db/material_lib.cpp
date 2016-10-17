@@ -4,7 +4,7 @@
 MaterialLib* MaterialLib::mInstance;
 const QString MaterialLib::CREATE_MATERIAL_TABLE_SQL = "CREATE TABLE material_table ("
                                            "id INTEGER PRIMARY KEY AUTOINCREMENT,"
-                                           "name VARCHAR NOT NULL,"
+                                           "name VARCHAR NOT NULL "
                                                        "UNIQUE,"
                                            "destiny FLOAT,"
                                            "emissivity FLOAT,"
@@ -58,15 +58,17 @@ MaterialLib::Material* MaterialLib::getMaterial(int index)
     Material* material = NULL;
 
     QSqlQuery query = QSqlQuery(db);
-    QString sql = "SELECT destiny, emissivity FROM material_table "
+    QString sql = "SELECT id, name, destiny, emissivity FROM material_table "
                   "WHERE id = " + QString::number(index);
 
     if (query.exec(sql)) {
 
         while (query.next()) {
             material = new Material();
-            material->destiny = query.value(0).toFloat();
-            material->emissivity = query.value(1).toFloat();
+            material->id = query.value(0).toInt();
+            material->materialName = query.value(1).toString();
+            material->destiny = query.value(2).toFloat();
+            material->emissivity = query.value(3).toFloat();
         }
     }
 
@@ -78,18 +80,23 @@ MaterialLib::Material* MaterialLib::getMaterial(const QString& name)
     Material* material = NULL;
 
     QSqlQuery query = QSqlQuery(db);
-    QString sql = "SELECT destiny, emissivity FROM material_table "
-                  "WHERE name = " + name;
+    QString sql = "SELECT id, name, destiny, emissivity FROM material_table WHERE name = ?";
 
-    if (query.exec(sql)) {
+    query.prepare(sql);
+    query.addBindValue(name);
+
+    if (query.exec()) {
 
         while (query.next()) {
             material = new Material();
-            material->destiny = query.value(0).toFloat();
-            material->emissivity = query.value(1).toFloat();
+            material->id = query.value(0).toInt();
+            material->materialName = query.value(1).toString();
+            material->destiny = query.value(2).toFloat();
+            material->emissivity = query.value(3).toFloat();
         }
     }
 
+qDebug() << query.lastError();
     return material;
 }
 
@@ -113,14 +120,35 @@ QList<MaterialLib::Material> MaterialLib::getMaterialNameList()
     return list;
 }
 
-bool MaterialLib::addMaterial(const QString& name, int tyle)
+int MaterialLib::getIndexOrderByName(int type, const QString& name)
+{
+    QSqlQuery query = QSqlQuery(db);
+    QString sql = "SELECT (SELECT COUNT(*) FROM material_table WHERE name < ? AND type = ?) + 1 AS rownum "
+                        " FROM material_table WHERE name = ?";
+
+    query.prepare(sql);
+    query.addBindValue(name);
+    query.addBindValue(type);
+    query.addBindValue(name);
+
+
+    if (query.exec()) {
+        if (query.next()) {
+            return query.value(0).toInt();
+        }
+    }
+qDebug() << query.lastError();
+    return -1;
+}
+
+bool MaterialLib::addMaterial(const QString& name, int type)
 {
     QSqlQuery query = QSqlQuery(db);
     QString sql = "INSERT INTO material_table (name, type) values(?,?)";
 
     query.prepare(sql);
     query.addBindValue(name);
-    query.addBindValue(tyle);
+    query.addBindValue(type);
 
     if (query.exec()) {
         return true;

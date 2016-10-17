@@ -22,8 +22,10 @@ class MateriaLibDialog : public QDialog
 public:
     explicit MateriaLibDialog(QWidget *parent = 0);
     ~MateriaLibDialog();
-    void init();
+
 private:
+    void init();
+    void addTreeWidgetItem(int index, int type, int id, const QString& name);
     void contextMenuEvent(QContextMenuEvent *event);
 
     QLabel *densityLabel;

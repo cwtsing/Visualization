@@ -186,6 +186,20 @@ void MateriaLibDialog::treeItemChange(QTreeWidgetItem* item)
 
 }
 
+void MateriaLibDialog::addTreeWidgetItem(int index, int type, int id, const QString& name)
+{
+    MyQtreeWidgetItem *item = new MyQtreeWidgetItem();
+    item->setIndex(id);
+    item->setText(0, name);
+
+    if (type == 1) {
+        group_metal->insertChild(index, item);
+    } else if (type == 2) {
+        group_nonmetal->insertChild(index, item);
+    }
+
+}
+
 void MateriaLibDialog::contextMenuEvent(QContextMenuEvent *event)
 {
     QTreeWidgetItem *item = treeWidget->currentItem();
@@ -227,16 +241,16 @@ void MateriaLibDialog::onAddMenuTriggered(QAction *action)
             if (!isExist) {
                 MaterialLib::getInstance()->addMaterial(dialog->textValue(), type);
                 QMessageBox::warning(this, tr(""), tr("添加成功!"), tr("确定"));
-//                MyQtreeWidgetItem *item;
+                MaterialLib::Material* material = MaterialLib::getInstance()->getMaterial(dialog->textValue());
 
-//                if (material.type == 1) {
-//                    item = new MyQtreeWidgetItem(group_metal, it.key());
-//                } else {
-//                    item = new MyQtreeWidgetItem(group_nonmetal, it.key());
-//                }
-
-//                item->setText(0, material.materialName);
-//                item->setFlags(Qt::ItemIsEditable |Qt::ItemIsEnabled|Qt::ItemIsSelectable);
+                int id = -1;
+                if (material != NULL)
+                    id = material->id;
+                int index = MaterialLib::getInstance()->getIndexOrderByName(type, dialog->textValue());
+                if (index != -1) {
+                    addTreeWidgetItem(index, type, id, dialog->textValue());
+                }
+                qDebug() << id << "  " << index;
             } else {
                 QMessageBox::warning(this, tr(""), tr("该材料已存在!"), tr("确定"));
             }
