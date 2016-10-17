@@ -7,6 +7,8 @@
 #include <QMessageBox>
 #include <QInputDialog>
 
+#define METAL_TYPE 1
+#define NONMETAL_TYPE 2
 MateriaLibDialog::MateriaLibDialog(QWidget *parent) :
     QDialog(parent)
 {
@@ -86,10 +88,12 @@ void MateriaLibDialog::init()
          qDebug() << material.materialName;
         MyQtreeWidgetItem *item;
 
-        if (material.type == 1) {
+        if (material.type == METAL_TYPE) {
             item = new MyQtreeWidgetItem(group_metal, material.id);
-        } else {
+        } else if (material.type == NONMETAL_TYPE) {
             item = new MyQtreeWidgetItem(group_nonmetal, material.id);
+        } else {
+            continue;
         }
 
         item->setText(0, material.materialName);
@@ -176,14 +180,12 @@ void MateriaLibDialog::treeItemChange(QTreeWidgetItem* item)
 
     QString name = myItem->text(0);
     if (!MaterialLib::getInstance()->updateMaterialName(myItem->Index(), name)) {
+        QMessageBox::critical(this, tr("修改材料"), tr("修改名称失败!"), tr("确定"));
         MaterialLib::Material* material = MaterialLib::getInstance()->getMaterial(myItem->Index());
         if (material) {
             myItem->setText(0, material->materialName);
         }
-    } else {
-        emit dataChanged();
     }
-
 }
 
 void MateriaLibDialog::addTreeWidgetItem(int index, int type, int id, const QString& name)
@@ -192,12 +194,15 @@ void MateriaLibDialog::addTreeWidgetItem(int index, int type, int id, const QStr
     item->setIndex(id);
     item->setText(0, name);
 
-    if (type == 1) {
+    if (type == METAL_TYPE) {
         group_metal->insertChild(index, item);
-    } else if (type == 2) {
+    } else if (type == NONMETAL_TYPE) {
         group_nonmetal->insertChild(index, item);
+    } else {
+        return;
     }
 
+    treeWidget->setCurrentItem(item);
 }
 
 void MateriaLibDialog::contextMenuEvent(QContextMenuEvent *event)
@@ -216,7 +221,7 @@ void MateriaLibDialog::onAddMenuTriggered(QAction *action)
 {
     QTreeWidgetItem *item = treeWidget->currentItem();
 
-    if (item != NULL && item->parent() == NULL) {
+    if (action == addAction && item != NULL && item->parent() == NULL) {
         int topItemindex = treeWidget->indexOfTopLevelItem(item);
 
         QInputDialog *dialog = new QInputDialog();
@@ -227,10 +232,10 @@ void MateriaLibDialog::onAddMenuTriggered(QAction *action)
         dialog->setCancelButtonText("取消");
         if (topItemindex == 0) {
             dialog->setWindowTitle("添加金属材料");
-            type = 1;
+            type = METAL_TYPE;
         } else if (topItemindex == 1) {
             dialog->setWindowTitle("添加非金属材料");
-            type = 2;
+            type = NONMETAL_TYPE;
         } else {
             return;
         }
@@ -240,7 +245,7 @@ void MateriaLibDialog::onAddMenuTriggered(QAction *action)
             qDebug() << isExist;
             if (!isExist) {
                 MaterialLib::getInstance()->addMaterial(dialog->textValue(), type);
-                QMessageBox::warning(this, tr(""), tr("添加成功!"), tr("确定"));
+                QMessageBox::information(this, tr("添加材料"), tr("添加成功!"), tr("确定"));
                 MaterialLib::Material* material = MaterialLib::getInstance()->getMaterial(dialog->textValue());
 
                 int id = -1;
@@ -248,11 +253,10 @@ void MateriaLibDialog::onAddMenuTriggered(QAction *action)
                     id = material->id;
                 int index = MaterialLib::getInstance()->getIndexOrderByName(type, dialog->textValue());
                 if (index != -1) {
-                    addTreeWidgetItem(index, type, id, dialog->textValue());
+                    addTreeWidgetItem(index - 1, type, id, dialog->textValue());
                 }
-                qDebug() << id << "  " << index;
             } else {
-                QMessageBox::warning(this, tr(""), tr("该材料已存在!"), tr("确定"));
+                QMessageBox::warning(this, tr("添加材料"), tr("该材料已存在!"), tr("确定"));
             }
         }
     }
@@ -263,11 +267,19 @@ void MateriaLibDialog::onDelMenuTriggered(QAction *action)
     MyQtreeWidgetItem *myItem = static_cast<MyQtreeWidgetItem *>(treeWidget->currentItem());
 
 
-    if (myItem == NULL)
-        return;
+    if (action == delAction && myItem != NULL && myItem->QTreeWidgetItem::parent() != NULL) {
 
-    qDebug() << myItem->Index();
-    qDebug() << MaterialLib::getInstance()->deleteMaterial(myItem->Index());
+        if (MaterialLib::getInstance()->deleteMaterial(myItem->Index())) {
+            QMessageBox::information(this, tr("删除材料"), tr("删除成功"), tr("确定"));
+            int topItemindex = treeWidget->indexOfTopLevelItem(myItem->QTreeWidgetItem::parent());
+            if (topItemindex == 0) {
+                group_metal->removeChild(myItem);
+            } else if (topItemindex == 1) {
+                group_nonmetal->removeChild(myItem);
+            }
+            treeItemClicked(treeWidget->currentItem());
+        }
+    }
 }
 
 void MateriaLibDialog::saveMaterialLibData()
@@ -306,6 +318,6 @@ void MateriaLibDialog::saveMaterialLibData()
 
 
     if (isSaved) {
-        QMessageBox::warning(this, tr(""), tr("保存成功"), tr("确定"));
+        QMessageBox::information(this, tr("保存材料"), tr("保存成功"), tr("确定"));
     }
 }

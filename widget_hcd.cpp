@@ -204,8 +204,10 @@ void WidgetHcd::changeTable(int index)
 void WidgetHcd::showLoadDialog()
 {
     MateriaLibDialog *dialog = new MateriaLibDialog(this);
-    connect(dialog, &MateriaLibDialog::dataChanged, this, &WidgetHcd::fillMetalTable);
-    dialog->show();
+
+    dialog->exec();
+    fillMetalTable();
+
 }
 
 void WidgetHcd::showSettingInputDialog()
