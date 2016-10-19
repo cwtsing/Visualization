@@ -10,13 +10,13 @@ Widget_ihcp_2::Widget_ihcp_2(QWidget *parent) :
     QGridLayout *mainLayout = new QGridLayout(this);
 
     QStringList labels;
-    labels << "内壁环境温度" << "内壁对流换热系数"<<"外壁环境温度"<<"外壁面辐射发射率"<<"内壁对流换热系数"<<"内壁环境辐射发射率"<<"外壁对流换热系数"<<"外壁环境辐射发射率";
+    labels << "内壁环境温度(K)" << "内壁对流换热系数"<<"外壁环境温度(K)"<<"外壁面辐射发射率"<<"内壁对流换热系数"<<"内壁环境辐射发射率"<<"外壁对流换热系数"<<"外壁环境辐射发射率";
     QString title = "";
     editBox = new GeneralEditBox(title, labels, 2, 4, this);
     editBox->setFixedHeight(Utils::windowSize().height() * 0.2);
 
     labels.clear();
-    labels << "材料层数"<< "材料初始温度"<< "迭代时间步"<< "某点坐标"<< "时间点";
+    labels << "材料层数"<< "材料初始温度(K)"<< "迭代时间步"<< "某点坐标"<< "时间点";
     editBox2 = new GeneralEditBox(title, labels, 5, 1, this);
     editBox2->setFixedHeight(Utils::windowSize().height() * 0.25);
 

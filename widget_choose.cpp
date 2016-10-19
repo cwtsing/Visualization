@@ -22,8 +22,8 @@ WidgetChoose::WidgetChoose(QWidget *parent) :
     hcdGroupBox->setObjectName("topGroupBox");
     chooseGroupBox->setObjectName("topGroupBox");
     // init label and edit
-    cruiseStratLabel = new QLabel(tr("巡航开始时刻:"));
-    cruiseEndLabel = new QLabel(tr("巡航终止时刻:"));
+    cruiseStratLabel = new QLabel(tr("巡航开始时刻(s):"));
+    cruiseEndLabel = new QLabel(tr("巡航终止时刻(s):"));
     trajectoryStartLineLabel = new QLabel(tr("轨迹数据在文件中的起始行号:"));
     characMutationLabel = new QLabel(tr("分离引起的特征量突变:"));
     heatecMinMachNumLabel = new QLabel(tr("气动热计算的最小马赫数:"));
@@ -31,10 +31,10 @@ WidgetChoose::WidgetChoose(QWidget *parent) :
     heatecTimeEndLabel = new QLabel(tr("Heatec计算终止时刻:"));
     heatecMinTimeStepLabel = new QLabel(tr("气动热计算输出最小时间步长:"));
     heatecStartLineLabel = new QLabel(tr("heatec计算结果在文件中的起始行号:"));
-    hcdTimeStartLabel = new QLabel(tr("热传导计算开始时刻:"));
-    hcdTimeEndLabel = new QLabel(tr("热传导计算终止时刻:"));
-    chooseTimeStartLabel = new QLabel(tr("遴选开始时间:"));
-    chooseTimeEndLabel = new QLabel(tr("遴选终止时间:"));
+    hcdTimeStartLabel = new QLabel(tr("热传导计算开始时刻(s):"));
+    hcdTimeEndLabel = new QLabel(tr("热传导计算终止时刻(s):"));
+    chooseTimeStartLabel = new QLabel(tr("遴选开始时间(s):"));
+    chooseTimeEndLabel = new QLabel(tr("遴选终止时间(s):"));
     chooseCoordinateLabel = new QLabel(tr("一维传热计算结果遴选坐标:"));
 
     cruiseStratEdit = new QLineEdit();

@@ -43,7 +43,7 @@ void WidgetHcd::init()
     materialTable = new QTableWidget(5,2);
 //    materialTable->verticalHeader()->setVisible(false);
     QStringList headerLabels;
-    headerLabels << "材料" << "厚度";
+    headerLabels << "材料" << "厚度(mm)";
     materialTable->setHorizontalHeaderLabels(headerLabels);
     headerLabels.clear();
     headerLabels << "①(最外)" << "②" << "③" << "④" << "⑤(最内)";
@@ -77,10 +77,10 @@ void WidgetHcd::init()
     QGridLayout *initialGroupLayout = new QGridLayout();
 
     QStringList labels;
-    labels << "初始温度(℃):" << "初始时刻(s):" << "终止时刻(s):" << "时间步长："
-           << "最大迭代次数" << "计算结果结果保存间隔" << "监控点结果时间间隔："
-           << "监控点1坐标：" << "监控点2坐标：" << "监控点3坐标："
-           << "监控点4坐标：" << "监控点5坐标：";
+    labels << "初始温度(℃):" << "初始时刻(s):" << "终止时刻(s):" << "时间步长(s)："
+           << "最大迭代次数" << "计算结果结果保存间隔(s)" << "监控点结果时间间隔："
+           << "监控点1坐标(mm)：" << "监控点2坐标(mm)：" << "监控点3坐标(mm)："
+           << "监控点4坐标(mm)：" << "监控点5坐标(mm)：";
     hcdEditBox = new GeneralEditBox("", labels, 12, 1, this);
 
 

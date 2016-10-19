@@ -18,7 +18,7 @@ void MulPointWidget::init()
 
     geometryLabel = new QLabel(tr("几何结构:"));
     calNumLabel = new QLabel(tr("计算段数:"));
-    frontRadiusLabel = new QLabel(tr("前缘半径:"));
+    frontRadiusLabel = new QLabel(tr("前缘半径(m):"));
     geometryFileButton = new QPushButton(tr("打开文件:"));
 
     calNumBox = new QComboBox();
@@ -64,7 +64,7 @@ void MulPointWidget::init()
     tableSettingWidget->setRowCount(4);
     tableSettingWidget->setColumnCount(5);
     QStringList tableHeader;
-    tableHeader << "长度(m)" << "角度" << "计算点数" << "流动设置" << "压力设置";
+    tableHeader << "长度(m)" << "角度(deg)" << "计算点数" << "流动设置" << "压力设置";
     tableSettingWidget->setHorizontalHeaderLabels(tableHeader);
     tableSettingWidget->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
     tableSettingWidget->verticalHeader()->setSectionResizeMode(QHeaderView::Stretch);

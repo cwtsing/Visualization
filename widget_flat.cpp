@@ -57,7 +57,7 @@ FlatWidget::FlatWidget(QWidget *parent) :
     editBox->setFixedHeight(Utils::windowSize().height() * 0.1);
 
     labels.clear();
-    labels << "流动" << "压力" << "角度";
+    labels << "流动" << "压力(Pa)" << "角度(deg)";
 
     QGroupBox *tableBox = new QGroupBox("");
     QGridLayout *tableLayout = new QGridLayout();

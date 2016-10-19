@@ -18,7 +18,7 @@ FlightWidget::FlightWidget(QWidget *parent) :
 
     tableWidget = new QTableWidget(4, 5);
     labels.clear();
-    labels << "时间" << "高度" << "速度" << "攻角" << "侧滑角";
+    labels << "时间(s)" << "高度(m)" << "速度(m/s)" << "攻角(deg)" << "侧滑角(deg)";
     tableWidget->setHorizontalHeaderLabels(labels);
     tableWidget->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
     tableWidget->verticalHeader()->setSectionResizeMode(QHeaderView::Stretch);

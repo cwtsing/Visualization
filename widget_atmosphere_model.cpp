@@ -60,11 +60,11 @@ void AtmosphereModelWidget::showLoadDialog()
     QStringList headerLabels;
 
     if (button->objectName() == "loadWindButton") {
-        headerLabels << "时间" << "静温" << "静压";
+        headerLabels << "时间(s)" << "静温(k)" << "静压(Pa)";
         TableDialog *dialog = new TableDialog("载入风洞", headerLabels);
         dialog->show();
     } else if (button->objectName() == "loadAtmosphereButton") {
-        headerLabels << "高度" << "静温" << "静压";
+        headerLabels << "高度(m)" << "静温(k)" << "静压(Pa)";
         TableDialog *dialog = new TableDialog("载入大气模型", headerLabels);
         dialog->show();
     }
@@ -75,14 +75,14 @@ void AtmosphereModelWidget::changeButtonEnable(int index)
     QStringList headerLabels;
     switch (index) {
     case 1:
-        headerLabels << "时间" << "静温" << "静压";
+        headerLabels << "时间(s)" << "静温(k)" << "静压(Pa)";
         inputTable->setHorizontalHeaderLabels(headerLabels);
         inputTable->setVisible(true);
         loadWindButton->setEnabled(true);
         loadAtmosphereButton->setEnabled(false);
         break;
     case 2:
-        headerLabels << "高度" << "静温" << "静压";
+        headerLabels << "高度(m)" << "静温(k)" << "静压(Pa)";
         inputTable->setHorizontalHeaderLabels(headerLabels);
         loadWindButton->setEnabled(false);
         loadAtmosphereButton->setEnabled(true);

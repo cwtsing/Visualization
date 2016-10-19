@@ -33,7 +33,7 @@ void Widget_ihcp_1::init()
     fir4Text = new QLineEdit();
 
 
-    sec1Label = new QLabel(tr("测点与外壁距离"));
+    sec1Label = new QLabel(tr("测点与外壁距离(m)"));
     sec2Label = new QLabel(tr("外边面辐射发射率"));
     sec3Label = new QLabel(tr("从头计算还是接着算：0从头，1接着算"));
 
@@ -48,9 +48,9 @@ void Widget_ihcp_1::init()
     thr1Label = new QLabel(tr("辨识时的优化参数"));
     thr2Label = new QLabel(tr("控制时间步长系数S"));
     thr3Label = new QLabel(tr("批处理文件数"));
-    thr4Label = new QLabel(tr("控制收敛与否的温度"));
+    thr4Label = new QLabel(tr("控制收敛与否的温度(K)"));
     thr5Label = new QLabel(tr("控制方差大小的系数"));
-    thr6Label = new QLabel(tr("测点温度时间间隔"));
+    thr6Label = new QLabel(tr("测点温度时间间隔(s)"));
     thr1Text = new QLineEdit();
     thr2Text = new QLineEdit();
     thr3Text = new QLineEdit();
@@ -94,7 +94,7 @@ void Widget_ihcp_1::init()
     labels << "第一层" << "第二层" << "第三层" << "第四层" << "第五层(最外层)";
     firTableWidget->setHorizontalHeaderLabels(labels);
     labels.clear();
-    labels << "材料" << "每层材料网格数量" << "材料的厚度" ;
+    labels << "材料" << "每层材料网格数量" << "材料的厚度(m)" ;
     firTableWidget->setVerticalHeaderLabels(labels);
     firTableWidget->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
     firTableWidget->verticalHeader()->setSectionResizeMode(QHeaderView::Stretch);
