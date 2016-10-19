@@ -207,8 +207,10 @@ void WidgetHcd::changeTable(int index)
 void WidgetHcd::showLoadDialog()
 {
     MateriaLibDialog *dialog = new MateriaLibDialog(this);
-    connect(dialog, &MateriaLibDialog::dataChanged, this, &WidgetHcd::fillMetalTable);
-    dialog->show();
+
+    dialog->exec();
+    fillMetalTable();
+
 }
 
 void WidgetHcd::showSettingInputDialog()
@@ -221,18 +223,45 @@ void WidgetHcd::showSettingInputDialog()
 
 void WidgetHcd::saveParameterData()
 {
-    QString paraData;
+    QFile file("./data/InputParams.DAT");
 
-    paraData += "   不同材料层厚度                材料名";
+    if(!file.open(QIODevice::ReadWrite | QIODevice::Text)) {
+        qDebug()<<"Can't open the file!"<<file.fileName()<< endl;
+        return;
+    }
+    QTextStream stream(&file);
+
+    QString paraData;
+    QString materialString;
+
+    paraData += "   不同材料层厚度                材料名\n";
     for (int i = 0;i <= layerBox->currentIndex();i++) {
         QComboBox *comboBox = static_cast<QComboBox*>(materialTable->cellWidget(i, 0));
         QString materialName = comboBox->currentText();
         float height = materialTable->item(i, 1)->text().toFloat();
-        paraData += "MaterialHeight = " + QString::number(height) + "MaterialName = " + materialName + "\n";
+        paraData += "MaterialHeight = " + QString::number(height) + " MaterialName = " + materialName + "\n";
     }
 
     paraData += "--坐标位置--   --边界条件--    --是否开启辐射散热功能--  "
-                "--气动热冷壁热流及恢复焓文件名称--    --气动热计算的冷壁温度（单位：K）--";
-    paraData += "";
+                "--气动热冷壁热流及恢复焓文件名称--    --气动热计算的冷壁温度（单位：K）--\n";
+    paraData += "x=Xmax ";
+    paraData += "x=Xmax ";
+    paraData += "温度计算结果输出单位（0表示摄氏度,1表示K）= 0\n";
+    paraData += "初始温度场 = " + hcdEditBox->getLineEdit(0, 0)->text() + "\n";
+    paraData += "全场计算结果保存时间间隔（单位：秒）= " + hcdEditBox->getLineEdit(6, 0)->text() + "\n";
+    paraData += "监控点坐标（单位：毫米）= ";
+    for (int i = 7;i < 12;i++) {
+        paraData += hcdEditBox->getLineEdit(i, 0)->text() + ", ";
+    }
+    paraData += "\n";
+    paraData += "监控点结果输出时间间隔（单位：秒）= " + hcdEditBox->getLineEdit(5, 0)->text() + "\n";
 
+    paraData += "初始计算时刻（单位：秒）= " + hcdEditBox->getLineEdit(1, 0)->text() + "\n";
+    paraData += "终止计算时刻（单位：秒）= " + hcdEditBox->getLineEdit(2, 0)->text() + "\n";
+    paraData += "时间步长（单位：秒）= " + hcdEditBox->getLineEdit(3, 0)->text() + "\n";
+    paraData += "每个时间步内最大迭代次数 = " + hcdEditBox->getLineEdit(4, 0)->text() + "\n";
+
+    stream << paraData;
+
+    file.close();
 }

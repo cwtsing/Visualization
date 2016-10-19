@@ -44,7 +44,7 @@ private:
     QAction *addAction;
     QAction *delAction;
 signals:
-    void dataChanged();
+
 public slots:
     void treeItemClicked(QTreeWidgetItem* item);
     void treeItemChange(QTreeWidgetItem* item);
